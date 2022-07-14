@@ -9,6 +9,10 @@ export class SignUpUseCase {
     constructor(@inject("AuthRepository") private repository: IAuthRepository){}
 
     async execute(username:string, password:string){
+
+        if(!username || username === " ") { throw new Error("Username field is empty")}
+        if(!password || password === " ") { throw new Error("Password field is empty")}
+
         
         const newUser = {
             username,
