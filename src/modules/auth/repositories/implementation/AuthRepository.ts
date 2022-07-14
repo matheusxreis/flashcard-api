@@ -59,4 +59,16 @@ export class AuthRepository implements IAuthRepository {
 
       return null;
     }
+
+    async findById(id:string): Promise<User|null> {
+
+        const user = await UserModel.findById(id);
+
+         if(user?.username && user?.createdAt){
+         const userExist = new User(user!.username, String(user!._id), user!.createdAt)
+         return userExist;
+        }
+
+        return null
+    }
 }
