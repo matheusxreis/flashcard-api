@@ -28,6 +28,7 @@ export class AuthRepository implements IAuthRepository {
             username: String(user.username),
             id: String(user._id)
         }
+        
         return {
             timestamp: new Date().getTime(),
             user: userData,
@@ -35,9 +36,10 @@ export class AuthRepository implements IAuthRepository {
         }
 
         
+        }else {
+            throw new Error("Password or username is wrong.")
         }
 
-        throw new Error("Method not implemented.");
     }
     
     async signUp(data: RegisterDTO): Promise<void> {
@@ -51,6 +53,23 @@ export class AuthRepository implements IAuthRepository {
         }catch(err){
             console.log(err)
         }
+    }
+
+    async getUserData(id: string): Promise<User>{
+        
+      const user = await this.findById(id);
+    
+      if(user){
+
+      const userData = new User(user?.username, String(user?.id), user?.createdAt);
+      return userData;
+
+      }else {
+
+      throw new Error("User doesn't exist!");
+
+       }
+
     }
     
    async findByUsername(username: string): Promise<User|null> {
@@ -66,13 +85,17 @@ export class AuthRepository implements IAuthRepository {
 
     async findById(id:string): Promise<User|null> {
 
+        try{
         const user = await UserModel.findById(id);
 
-         if(user?.username && user?.createdAt){
-         const userExist = new User(user!.username, String(user!._id), user!.createdAt)
-         return userExist;
+            if(user?.username && user?.createdAt){
+            const userExist = new User(user!.username, String(user!._id), user!.createdAt)
+            return userExist;
         }
 
         return null
+    }catch {
+        return null
+    }
     }
 }

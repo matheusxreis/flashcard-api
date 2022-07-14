@@ -2,8 +2,13 @@ import { Request, Response, NextFunction } from "express";
 import { AuthRepository } from "../modules/auth/repositories/implementation/AuthRepository";
 import { VerifyJWT } from "../modules/auth/utils/jwt";
 
+
+export interface MyReq extends Request {
+    userId?: string;
+}
+
 export async function ensureAuthentication(
-    req: Request, 
+    req: MyReq, 
     res: Response, 
     next: NextFunction
 ){
@@ -28,5 +33,6 @@ export async function ensureAuthentication(
 
     }
     
+    req.userId = user.id;
     next();
 }
