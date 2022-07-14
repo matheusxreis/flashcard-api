@@ -6,7 +6,8 @@
   "license": "MIT",
   "private": null,
   "scripts": {
-    "dev": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules --respawn src/server.ts"
+    "dev": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules --respawn src/server.ts",
+    "build": "rm -rf ./dist && tsc"
   },
   "dependencies": {
     "@types/bcrypt": "^5.0.0",

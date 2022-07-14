@@ -1,0 +1,18 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.authRoutes = void 0;
+const express_1 = require("express");
+const tsyringe_1 = require("tsyringe");
+const ensureAuthentication_1 = require("../../../middlewares/ensureAuthentication");
+const ensureIsTheSameUser_1 = require("../../../middlewares/ensureIsTheSameUser");
+const GetUserDataController_1 = require("../controllers/GetUserDataController");
+const SignInController_1 = require("../controllers/SignInController");
+const SignUpController_1 = require("../controllers/SignUpController");
+const authRoutes = (0, express_1.Router)();
+exports.authRoutes = authRoutes;
+const signUpController = tsyringe_1.container.resolve(SignUpController_1.SignUpController);
+const signInController = tsyringe_1.container.resolve(SignInController_1.SignInController);
+const getUserDataControler = tsyringe_1.container.resolve(GetUserDataController_1.GetUserDataController);
+authRoutes.post("/register", (req, res) => signUpController.handle(req, res));
+authRoutes.post("/", (req, res) => signInController.handle(req, res));
+authRoutes.get("/user", ensureAuthentication_1.ensureAuthentication, ensureIsTheSameUser_1.ensureIsTheSameUser, (req, res) => getUserDataControler.handle(req, res));
