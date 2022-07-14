@@ -24,9 +24,13 @@ export class AuthRepository implements IAuthRepository {
 
         const token = await GenerateJWT(String(user._id))
 
+        const userData = {
+            username: String(user.username),
+            id: String(user._id)
+        }
         return {
             timestamp: new Date().getTime(),
-            username: data.username,
+            user: userData,
             token
         }
 
