@@ -3,11 +3,36 @@ import { ResponseSignInDTO } from "../../dtos/ResponseSignInDTO";
 import { SignInDTO } from "../../dtos/SignInDTO";
 import { IAuthRepository } from "../IAuthRepository";
 import { User, UserModel } from "../../entities/User"
+import { Compare } from "../../utils/encrypt";
+import { GenerateJWT } from "../../utils/jwt";
 
 
 export class AuthRepository implements IAuthRepository {
     
-    signIn(data: SignInDTO): Promise<ResponseSignInDTO> {
+    async signIn(data: SignInDTO): Promise<ResponseSignInDTO> {
+
+        const user = await UserModel.findOne({username: data.username}).exec();
+
+        if(!user){
+            throw new Error("Password or username is wrong.")
+        }
+
+        if(user.password){
+        const passwordIsRight = await Compare(user!.password, data.password)
+
+        if(!passwordIsRight ) throw new Error("Password or username is wrong.");
+
+        const token = await GenerateJWT(String(user._id))
+
+        return {
+            timestamp: new Date().getTime(),
+            username: data.username,
+            token
+        }
+
+        
+        }
+
         throw new Error("Method not implemented.");
     }
     
