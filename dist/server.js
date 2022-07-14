@@ -16,4 +16,4 @@ api.use(express_1.default.json());
 api.use((0, cors_1.default)({ origin: "*" }));
 api.use(routes_1.router);
 init_1.Database.init();
-api.listen(process.env.PORT_API, () => console.log(`Running on port: ${process.env.PORT_API}`));
+api.listen(process.env.PORT, () => console.log(`Running on port: ${process.env.PORT}`));

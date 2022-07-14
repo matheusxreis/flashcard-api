@@ -15,5 +15,5 @@ api.use(cors({origin:"*"}))
 api.use(router);
 
 Database.init();
-api.listen(process.env.PORT_API, ()=>console.log(`Running on port: ${process.env.PORT_API}`));
+api.listen(process.env.PORT, ()=>console.log(`Running on port: ${process.env.PORT}`));
 
