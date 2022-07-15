@@ -10,10 +10,15 @@ startEnvVariable()
 const api = express();
 
 
+const PORT = () => {
+    if(process.env.NODE_ENV==="development") { return 3333 };
+    if(process.env.NODE_ENV==="production") { return process.env.PORT || 3333}
+};
+
 api.use(express.json());
 api.use(cors({origin:"*"}))
 api.use(router);
 
 Database.init();
-api.listen(process.env.PORT, ()=>console.log(`Running on port: ${process.env.PORT}`));
+api.listen(PORT(), ()=>console.log(`Running on port: ${PORT()}`));
 

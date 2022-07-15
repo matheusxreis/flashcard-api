@@ -6,9 +6,9 @@
   "license": "MIT",
   "private": null,
   "scripts": {
-    "dev": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules --respawn src/server.ts",
+    "dev": "export NODE_ENV='development' && ts-node-dev --inspect --transpile-only --ignore-watch node_modules --respawn src/server.ts",
     "build": "rm -rf ./dist && tsc",
-    "start": "node ./dist/server.js"
+    "start": "export NODE_ENV='production' && node ./dist/server.js"
   },
   "dependencies": {
     "@types/bcrypt": "^5.0.0",
