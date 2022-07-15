@@ -15,10 +15,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Database = exports.connection = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const connection = () => {
-    if (process.env.NODE_ENV === "development") {
+    if (process.env.NODE_ENV === "production") {
         return `mongodb://${process.env.MONGO_DB_SERVER}/${process.env.DATABASE_NAME}`;
     }
-    if (process.env.NODE_ENV === "production") {
+    if (process.env.NODE_ENV === "development") {
         return `mongodb+srv://${process.env.USERNAME_DB}:${process.env.PASSWORD_DB}${process.env.URL_DB}`;
     }
 };
