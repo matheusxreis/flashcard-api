@@ -12,13 +12,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Database = void 0;
+exports.Database = exports.connection = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
+const connection = () => {
+    if (process.env.NODE_ENV === "development") {
+        return `mongodb://${process.env.MONGO_DB_SERVER}/${process.env.DATABASE_NAME}`;
+    }
+    if (process.env.NODE_ENV === "production") {
+        return `mongodb+srv://${process.env.USERNAME_DB}:${process.env.PASSWORD_DB}${process.env.URL_DB}`;
+    }
+};
+exports.connection = connection;
 class Database {
     static init() {
         return __awaiter(this, void 0, void 0, function* () {
-            mongoose_1.default.connect(`mongodb://${process.env.MONGO_DB_SERVER}/${process.env.DATABASE_NAME}`)
-                .then(() => console.log("[DATABASE] - Connected!" + `mongodb://${process.env.MONGO_DB_SERVER}/${process.env.DATABASE_NAME}`))
+            mongoose_1.default.connect(`${(0, exports.connection)()}`)
+                .then(() => console.log("[DATABASE] - Connected!"))
                 .catch((err) => { throw new Error(err); });
         });
     }
